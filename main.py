@@ -110,25 +110,15 @@ with st.expander("📋 Lead Form (Click to open)"):
                     st.error(e)
             else:
                 # Save to Google Sheet
-                # Lead form submit section
-                
-             now = datetime.now(ZoneInfo("Asia/Kolkata"))
+                sheet.append_row([name, email, phone, interest, datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")])
 
-    # Save to Google Sheet
-    sheet.append_row(
-        [name, email, phone, interest, timestamp],
-        value_input_option='USER_ENTERED'
-    )
+                # WhatsApp notification
+                twilio_client.messages.create(
+                    from_=FROM_WHATSAPP,
+                    body=f"📌 New lead received!\nName: {name}\nEmail: {email}\nPhone: {phone}\nInterest: {interest}",
+                    to=TO_WHATSAPP
+                )
 
-    # Send WhatsApp notification
-    twilio_client.messages.create(
-        from_=FROM_WHATSAPP,
-        body=f"📌 New lead received!\nName: {name}\nEmail: {email}\nPhone: {phone}\nInterest: {interest}",
-        to=TO_WHATSAPP
-    )
-
-    # Chatbot Confirmation
-    st.session_state.chat_history.append(
-        ("Bot", "✅ Thank you! Your details are saved. Our team will contact you soon.")
-    )
-    st.success("✅ Lead submitted successfully!")
+                # Chatbot Confirmation
+                st.session_state.chat_history.append(("Bot", "✅ Thank you! Your details are saved. Our team will contact you soon."))
+                st.success("✅ Lead submitted successfully!")

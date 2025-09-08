@@ -110,23 +110,27 @@ with st.expander("📋 Lead Form (Click to open)"):
                     st.error(e)
             else:
                 # Save to Google Sheet
-                sheet.append_row([name, email, phone, interest, datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")])
+                # Lead form submit section
+if submitted:
+    now = datetime.now(ZoneInfo("Asia/Kolkata"))
+    timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
 
-                from datetime import datetime
-                 import streamlit as st
+    # Save to Google Sheet
+    sheet.append_row(
+        [name, email, phone, interest, timestamp],
+        value_input_option='USER_ENTERED'
+    )
 
-                 st.write("server now (naive):", datetime.now())
-                 st.write("server utcnow():", datetime.utcnow())
-                 st.write("server IST:", datetime.now(ZoneInfo("Asia/Kolkata")))
+    # Send WhatsApp notification
+    twilio_client.messages.create(
+        from_=FROM_WHATSAPP,
+        body=f"📌 New lead received!\nName: {name}\nEmail: {email}\nPhone: {phone}\nInterest: {interest}",
+        to=TO_WHATSAPP
+    )
 
+    # Chatbot Confirmation
+    st.session_state.chat_history.append(
+        ("Bot", "✅ Thank you! Your details are saved. Our team will contact you soon.")
+    )
+    st.success("✅ Lead submitted successfully!")
 
-                # WhatsApp notification
-                twilio_client.messages.create(
-                    from_=FROM_WHATSAPP,
-                    body=f"📌 New lead received!\nName: {name}\nEmail: {email}\nPhone: {phone}\nInterest: {interest}",
-                    to=TO_WHATSAPP
-                )
-
-                # Chatbot Confirmation
-                st.session_state.chat_history.append(("Bot", "✅ Thank you! Your details are saved. Our team will contact you soon."))
-                st.success("✅ Lead submitted successfully!")

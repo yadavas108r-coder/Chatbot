@@ -28,7 +28,7 @@ sheet = gs_client.open(SHEET_NAME).sheet1
 # ----------------------------
 TWILIO_SID = st.secrets["TWILIO_SID"]
 TWILIO_AUTH_TOKEN = st.secrets["TWILIO_AUTH_TOKEN"]
-FROM_WHATSAPP = "whatsapp:+917044215131"   # Twilio sandbox
+FROM_WHATSAPP = "whatsapp:+14155238886"   # Twilio sandbox
 TO_WHATSAPP = st.secrets["TO_WHATSAPP"]   # Tumhara number
 twilio_client = Client(TWILIO_SID, TWILIO_AUTH_TOKEN)
 

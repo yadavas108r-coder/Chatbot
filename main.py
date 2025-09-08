@@ -113,7 +113,6 @@ with st.expander("📋 Lead Form (Click to open)"):
                 # Lead form submit section
                 
              now = datetime.now(ZoneInfo("Asia/Kolkata"))
-      timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
 
     # Save to Google Sheet
     sheet.append_row(

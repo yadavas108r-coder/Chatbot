@@ -111,8 +111,8 @@ with st.expander("📋 Lead Form (Click to open)"):
             else:
                 # Save to Google Sheet
                 # Lead form submit section
-if submitted:
-    now = datetime.now(ZoneInfo("Asia/Kolkata"))
+                
+             now = datetime.now(ZoneInfo("Asia/Kolkata"))
     timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
 
     # Save to Google Sheet
@@ -133,4 +133,3 @@ if submitted:
         ("Bot", "✅ Thank you! Your details are saved. Our team will contact you soon.")
     )
     st.success("✅ Lead submitted successfully!")
-

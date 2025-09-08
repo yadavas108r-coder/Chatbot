@@ -37,8 +37,9 @@ twilio_client = Client(TWILIO_SID, TWILIO_AUTH_TOKEN)
 # ----------------------------
 st.set_page_config(page_title="AI Sales Chatbot", page_icon="🤖", layout="centered")
 
-st.title("🤖 AI Sales Assistant")
+st.title("🤖 AI Chatbot")
 st.write("Choose a quick question or type your own message below.")
+st.write("Yadava's- Born to Fashion")
 
 # Initialize chat history
 if "chat_history" not in st.session_state:

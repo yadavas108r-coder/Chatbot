@@ -87,16 +87,38 @@ with st.expander("📋 Lead Form (Click to open)"):
         submitted = st.form_submit_button("Submit")
 
         if submitted:
-            # Save to Google Sheet
-            sheet.append_row([name, email, phone, interest, datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")])
+            errors = []
+            
+            # ✅ Name validation
+            if not name.strip():
+                errors.append("⚠️ Name cannot be empty.")
 
-            # Send WhatsApp notification
-            twilio_client.messages.create(
-                from_=FROM_WHATSAPP,
-                body=f"📌 New lead received!\nName: {name}\nEmail: {email}\nPhone: {phone}\nInterest: {interest}",
-                to=TO_WHATSAPP
-            )
+            # ✅ Email validation
+            import re
+            email_pattern = r"^[\w\.-]+@[\w\.-]+\.\w+$"
+            if not re.match(email_pattern, email):
+                errors.append("⚠️ Please enter a valid email address.")
 
-            # Chatbot Confirmation
-            st.session_state.chat_history.append(("Bot", "✅ Thank you! Your details are saved. Our team will contact you soon."))
-            st.success("✅ Lead submitted successfully!")
+            # ✅ Phone validation (India specific: 10 digit, starts with 6-9)
+            phone_pattern = r"^[6-9]\d{9}$"
+            if not re.match(phone_pattern, phone):
+                errors.append("⚠️ Please enter a valid 10-digit phone number.")
+
+            # ✅ Final check
+            if errors:
+                for e in errors:
+                    st.error(e)
+            else:
+                # Save to Google Sheet
+                sheet.append_row([name, email, phone, interest, datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")])
+
+                # WhatsApp notification
+                twilio_client.messages.create(
+                    from_=FROM_WHATSAPP,
+                    body=f"📌 New lead received!\nName: {name}\nEmail: {email}\nPhone: {phone}\nInterest: {interest}",
+                    to=TO_WHATSAPP
+                )
+
+                # Chatbot Confirmation
+                st.session_state.chat_history.append(("Bot", "✅ Thank you! Your details are saved. Our team will contact you soon."))
+                st.success("✅ Lead submitted successfully!")

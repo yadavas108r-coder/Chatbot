@@ -1,8 +1,6 @@
 streamlit
 openai
 gspread
-oauth2client
+oauth2client==4.1.3
 twilio
 yagmail
-
-

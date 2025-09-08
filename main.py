@@ -37,9 +37,9 @@ twilio_client = Client(TWILIO_SID, TWILIO_AUTH_TOKEN)
 # ----------------------------
 st.set_page_config(page_title="AI Sales Chatbot", page_icon="🤖", layout="centered")
 
-st.title("🤖 AI Chatbot")
-st.write("Choose a quick question or type your own message below.")
+st.title("🤖 Chatbot")
 st.write("Yadava's- Born to Fashion")
+st.write("Choose a quick question or type your own message below.")
 
 # Initialize chat history
 if "chat_history" not in st.session_state:
@@ -111,6 +111,14 @@ with st.expander("📋 Lead Form (Click to open)"):
             else:
                 # Save to Google Sheet
                 sheet.append_row([name, email, phone, interest, datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")])
+
+                from datetime import datetime
+                 import streamlit as st
+
+                 st.write("server now (naive):", datetime.now())
+                 st.write("server utcnow():", datetime.utcnow())
+                 st.write("server IST:", datetime.now(ZoneInfo("Asia/Kolkata")))
+
 
                 # WhatsApp notification
                 twilio_client.messages.create(
